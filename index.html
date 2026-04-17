@@ -273,7 +273,7 @@
       <div class="meta">
         <span>📋 20문항</span>
         <span>⏱ 약 2분</span>
-        <span>🔒 저장 안 됨</span>
+        <span>✨ vibe 앱 연동</span>
       </div>
       <button class="btn-start" onclick="startQuiz()">테스트 시작하기</button>
     </div>
@@ -301,6 +301,36 @@
 
   </div>
 
+  <script type="module">
+    // ── Firebase 저장 ──
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    const firebaseApp = initializeApp({
+      apiKey: "AIzaSyAw8Wdw_c-k9DZa9EWyKB3WCnBC5HEMTzA",
+      authDomain: "vibe-56a26.firebaseapp.com",
+      projectId: "vibe-56a26",
+      appId: "1:811210478039:web:2e8944c322d4b78d2cfb92"
+    });
+    const db = getFirestore(firebaseApp);
+
+    // URL에서 uid 파싱
+    const uid = new URLSearchParams(window.location.search).get('uid');
+
+    async function saveVibeType(type) {
+      if (!uid) return;
+      try {
+        await updateDoc(doc(db, 'users', uid), { vibeType: type });
+        console.log('vibe 유형 저장 완료:', type);
+      } catch (e) {
+        console.error('저장 실패:', e);
+      }
+    }
+
+    // 전역 함수로 노출
+    window.saveVibeType = saveVibeType;
+    window.uid = uid;
+  </script>
   <script>
     const typeData = {
       E: {
@@ -559,6 +589,8 @@
       el.style.display = 'block';
 
       const type = calcType();
+      // Firebase에 vibe 유형 저장
+      if (window.saveVibeType) window.saveVibeType(type);
       const t = typeData[type];
       const matchT = typeData[t.match];
 
