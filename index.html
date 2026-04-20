@@ -342,27 +342,27 @@
     // URL에서 uid 파싱
     const uid = new URLSearchParams(window.location.search).get('uid');
 
-// 퀴즈 결과 → 앱 코드 매핑 (E/X/F/S)
-const vibeCodeMap = {
-  "새벽 감성형": "E",
-  "음악형":      "E",
-  "즉흥 에너지형": "X",
-  "표현형":      "X",
-  "잔잔형":      "F",
-  "집콕형":      "S",
-};
+    // 퀴즈 결과 → 앱 코드 매핑 (E/X/F/S)
+    const vibeCodeMap = {
+      "새벽 감성형": "E",
+      "음악형":      "E",
+      "즉흥 에너지형": "X",
+      "표현형":      "X",
+      "잔잔형":      "F",
+      "집콕형":      "S",
+    };
 
-async function saveVibeType(type) {
-  if (!uid) return;
-  const code = vibeCodeMap[type];
-  if (!code) { console.warn('매핑 없는 유형:', type); return; }
-  try {
-    await updateDoc(doc(db, 'users', uid), { vibeType: code });
-    console.log('vibe 유형 저장 완료:', type, '→', code);
-  } catch (e) {
-    console.error('저장 실패:', e);
-  }
-}
+    async function saveVibeType(type) {
+      if (!uid) return;
+      const code = vibeCodeMap[type];
+      if (!code) { console.warn('매핑 없는 유형:', type); return; }
+      try {
+        await updateDoc(doc(db, 'users', uid), { vibeType: code });
+        console.log('vibe 유형 저장 완료:', type, '→', code);
+      } catch (e) {
+        console.error('저장 실패:', e);
+      }
+    }
 
     // 전역 함수로 노출
     window.saveVibeType = saveVibeType;
@@ -511,50 +511,85 @@ async function saveVibeType(type) {
       return { contactStyle, loveType };
     }
 
+    const loveEmoji = { "안정형":"❤️", "설렘형":"💕", "표현형":"✨", "친구형":"🤝" };
+
+    // 바이브 + 연애 조합별 문구
+    const combinedData = {
+      "새벽 감성형": {
+        "안정형":  { headline:"너는 새벽 감성 + 안정형 연애를 하는 사람이야", lines:["조용한 순간 속에서 진짜 감정을 느끼는 타입이야","연애에서도 편안하고 오래가는 관계를 더 원해"] },
+        "설렘형":  { headline:"너는 새벽 감성 + 설렘을 중요하게 생각하는 사람이야", lines:["감정이 깊어서 작은 순간에도 크게 흔들려","연애에서도 감정의 온도를 중요하게 느껴"] },
+        "표현형":  { headline:"너는 감성적이면서도 표현을 중요하게 생각해", lines:["밤에 감정을 글로 쓰거나 말로 털어놓는 타입이야","솔직한 감정 표현이 관계를 더 깊게 만들어줘"] },
+        "친구형":  { headline:"너는 감성적이지만 편안한 친구 같은 연애가 좋아", lines:["깊은 감성을 나눌 수 있는 사람이 곁에 있으면 돼","연애보다 서로 이해하는 관계가 더 중요해"] }
+      },
+      "즉흥 에너지형": {
+        "안정형":  { headline:"너는 즉흥적이지만 관계에서는 안정을 찾아", lines:["밖에서는 에너지 넘치지만 사람과는 편안하길 원해","믿을 수 있는 사람 한 명이 있으면 충분해"] },
+        "설렘형":  { headline:"너는 즉흥 에너지 + 설렘을 동시에 즐기는 사람이야", lines:["새로운 것과 두근거림을 함께 느끼는 타입이야","연애도 매 순간 새롭고 설레야 직성이 풀려"] },
+        "표현형":  { headline:"너는 에너지 넘치고 표현도 적극적인 타입이야", lines:["좋으면 바로 티내고 싫으면 바로 말하는 편이야","솔직하고 활동적인 연애 스타일이 잘 어울려"] },
+        "친구형":  { headline:"너는 즉흥적이고 친구 같은 연애를 선호해", lines:["같이 뭔가 하는 게 제일 좋아, 가만히 있으면 심심해","연인보다 가장 친한 친구 같은 사람이 이상형이야"] }
+      },
+      "집콕형": {
+        "안정형":  { headline:"너는 집콕 + 안정형 연애를 하는 사람이야", lines:["집에서 함께 있는 것만으로도 충분히 행복해","조용하고 안정적인 연애가 제일 잘 맞아"] },
+        "설렘형":  { headline:"너는 집에서도 설레는 감정을 원하는 타입이야", lines:["밖보단 집이지만 감정의 온도는 높고 싶어","같이 있을 때 편안하면서도 두근거리는 게 이상이야"] },
+        "표현형":  { headline:"너는 조용하지만 감정은 확실히 표현하는 타입이야", lines:["집에 있어도 감정 표현은 적극적으로 해","상대가 내 마음을 알아줬으면 하는 바람이 있어"] },
+        "친구형":  { headline:"너는 집에서 편하게 친구 같은 연애를 원해", lines:["넷플릭스 보면서 조용히 있는 게 최고의 데이트야","부담 없이 편한 사람이랑 오래 있고 싶어"] }
+      },
+      "표현형": {
+        "안정형":  { headline:"너는 표현은 잘하지만 안정을 원하는 타입이야", lines:["솔직하게 말하면서도 관계는 오래가길 바라","표현하고 나서 상대가 받아줄 때 가장 행복해"] },
+        "설렘형":  { headline:"너는 표현 + 설렘 둘 다 중요한 사람이야", lines:["감정을 솔직히 말하고 설레는 순간을 즐겨","연애할 때 두근거림 + 솔직한 대화가 필수야"] },
+        "표현형":  { headline:"너는 표현이 넘치는 연애 스타일이야", lines:["좋다고 말하고, 싫다고 말하고, 다 말해버리는 타입","상대도 그만큼 표현해줄 때 가장 잘 맞아"] },
+        "친구형":  { headline:"너는 표현하면서도 친구 같은 연애를 원해", lines:["솔직하게 다 말할 수 있는 사람이 이상형이야","연인이자 가장 친한 친구 같은 관계가 최고야"] }
+      },
+      "음악형": {
+        "안정형":  { headline:"너는 음악처럼 감성적이고 안정적인 연애를 원해", lines:["좋아하는 음악 같이 들을 수 있는 사람이면 충분해","감성이 맞는 사람과 오래가는 관계가 제일 좋아"] },
+        "설렘형":  { headline:"너는 음악처럼 감성적이고 설레는 연애를 원해", lines:["좋은 노래 들을 때처럼 심장이 두근거리는 연애가 좋아","감성 + 설렘이 동시에 있는 사람이 이상형이야"] },
+        "표현형":  { headline:"너는 음악으로 감정을 표현하는 타입이야", lines:["말 대신 음악으로 감정을 전하고 싶을 때가 있어","표현하고 싶은 감정이 많지만 방식이 감성적이야"] },
+        "친구형":  { headline:"너는 음악 취향 공유하며 친구처럼 지내는 연애가 좋아", lines:["플리 공유하면서 가까워지는 게 제일 자연스러워","취향이 맞는 사람이랑 부담 없이 지내고 싶어"] }
+      },
+      "잔잔형": {
+        "안정형":  { headline:"너는 잔잔한 안정형 연애를 하는 사람이야", lines:["편안한 분위기 속에서 행복을 느끼는 타입이야","연애도 부담 없이 자연스럽게 이어가는 걸 좋아해"] },
+        "설렘형":  { headline:"너는 잔잔하지만 설레는 감정은 원하는 타입이야", lines:["조용하게 있지만 내심 두근거림은 필요해","작은 것에서 설렘을 느끼는 감성 있는 타입이야"] },
+        "표현형":  { headline:"너는 잔잔하지만 감정은 표현하는 타입이야", lines:["조용히 있다가도 하고 싶은 말은 다 해버려","감정을 솔직하게 말할 수 있는 관계를 원해"] },
+        "친구형":  { headline:"너는 잔잔하고 친구 같은 연애를 원해", lines:["같이 있어도 말 없이 편한 게 최고야","서로 간섭 없이 자연스럽게 이어가는 연애가 좋아"] }
+      }
+    };
+
     function showResult() {
       document.getElementById('quiz').style.display = 'none';
       const el = document.getElementById('result');
       el.style.display = 'block';
 
       const vibe = calcVibe();
-      const { contactStyle, loveType } = calcLove();
+      const { loveType } = calcLove();
       const v = vibeData[vibe];
-      const matchV = vibeData[v.matchVibe];
+      const combo = (combinedData[vibe] && combinedData[vibe][loveType]) || {
+        headline: `너는 ${vibe} + ${loveType} 연애를 하는 사람이야`,
+        lines: [v.desc, "자신만의 연애 스타일이 있는 타입이야"]
+      };
 
       if (window.saveVibeType) window.saveVibeType(vibe);
 
-      const adviceHTML = v.advice.map(line => `
-        <div class="advice-line"><span class="advice-dot"></span><span>${line}</span></div>
-      `).join('');
-
       el.innerHTML = `
-        <div class="result-header">
-          <span class="emoji">${v.emoji}</span>
-          <h2>${vibe}</h2>
-          <p>${v.desc}</p>
-        </div>
-
-        <div class="section-title">📊 나의 연애 성향</div>
-        <div class="love-badges">
-          <span class="love-badge">💬 ${contactStyle}</span>
-          <span class="love-badge">❤️ ${loveType}</span>
-        </div>
-
-        <div class="section-title">✨ 잘 맞는 바이브</div>
-        <div style="background:#161628;border:1px solid #2d2d44;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:16px;margin-bottom:20px;">
-          <span style="font-size:36px">${matchV.emoji}</span>
-          <div>
-            <div style="font-size:16px;font-weight:700;color:#f1f5f9;">${v.matchVibe}</div>
-            <div style="font-size:13px;color:#64748b;margin-top:3px;">${matchV.desc}</div>
+        <div style="text-align:center;padding:28px 0 8px;">
+          <div style="font-size:22px;font-weight:800;color:#f1f5f9;letter-spacing:-0.3px;margin-bottom:6px;">
+            ${v.emoji} ${vibe} + ${loveEmoji[loveType] || '❤️'} ${loveType}
           </div>
+          <div style="font-size:13px;color:#64748b;margin-bottom:20px;">나의 바이브 × 연애 성향 조합</div>
         </div>
 
-        <div class="section-title">💬 나에게 한마디</div>
-        <div class="advice-box">${adviceHTML}</div>
+        <div style="background:linear-gradient(135deg,#1e1b36,#161628);border:1px solid #3d2d60;border-radius:20px;padding:24px 22px;margin-bottom:20px;">
+          <div style="font-size:13px;color:#a78bfa;font-weight:700;margin-bottom:10px;">👉 한 줄로 말하면</div>
+          <div style="font-size:17px;font-weight:800;color:#f1f5f9;line-height:1.5;margin-bottom:16px;">"${combo.headline}"</div>
+          ${combo.lines.map(l => `
+            <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">
+              <span style="color:#a78bfa;margin-top:2px;">•</span>
+              <span style="font-size:14px;color:#cbd5e1;line-height:1.5;">${l}</span>
+            </div>
+          `).join('')}
+        </div>
 
         <div class="vibe-cta">
-          <p>이 유형끼리 만나면 진짜 잘 맞는 편임 👀</p>
-          <a class="vibe-btn vibe-btn-main" href="https://vibe-56a26.web.app" target="_blank">👉 나랑 진짜 맞는 사람 찾기</a>
+          <p>이 유형이랑 진짜 잘 맞는 사람 찾아볼래? 👀</p>
+          <a class="vibe-btn vibe-btn-main" href="https://vibe-56a26.web.app" target="_blank">👉 나랑 맞는 사람 찾기</a>
         </div>
 
         <div class="btn-row">
@@ -574,10 +609,11 @@ async function saveVibeType(type) {
 
     function copyResult() {
       const vibe = calcVibe();
-      const { contactStyle, loveType } = calcLove();
+      const { loveType } = calcLove();
       const v = vibeData[vibe];
-      const advice = v.advice.map(l => `• ${l}`).join('\n');
-      const text = `${v.emoji} 나의 바이브: ${vibe}\n${v.desc}\n\n📊 연애 성향: ${contactStyle} / ${loveType}\n✨ 잘 맞는 바이브: ${v.matchVibe}\n\n💬 나에게 한마디\n${advice}\n\n#바이브테스트`;
+      const combo = (combinedData[vibe] && combinedData[vibe][loveType]) || { headline: `${vibe} + ${loveType}`, lines: [] };
+      const lines = combo.lines.map(l => `• ${l}`).join('\n');
+      const text = `${v.emoji} 나의 바이브: ${vibe}\n${loveEmoji[loveType] || '❤️'} 연애 성향: ${loveType}\n\n"${combo.headline}"\n\n${lines}\n\n#바이브테스트`;
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.querySelector('.btn-copy');
         btn.textContent = '✅ 복사됨!';
