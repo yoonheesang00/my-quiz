@@ -281,6 +281,30 @@
       padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700;
       background: #161628; border: 1px solid #2d2d44; color: #c4b5fd;
     }
+    /* ─── COMPAT ─── */
+    .compat-top {
+      background: linear-gradient(135deg, rgba(124,58,237,.12), rgba(236,72,153,.12));
+      border: 1px solid rgba(236,72,153,.25);
+      border-radius: 14px; padding: 14px 18px; margin-bottom: 14px;
+      font-size: 14px; color: #f9a8d4; font-weight: 600; text-align: center; line-height: 1.6;
+    }
+    .compat-list { display: flex; flex-direction: column; gap: 11px; margin-bottom: 20px; }
+    .compat-item { display: flex; align-items: center; gap: 8px; }
+    .compat-emoji { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+    .compat-name { font-size: 12px; font-weight: 700; color: #e2e8f0; width: 76px; flex-shrink: 0; }
+    .compat-bar-wrap { flex: 1; height: 7px; background: #1e1e2e; border-radius: 10px; overflow: hidden; }
+    .compat-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #7c3aed, #ec4899); }
+    .compat-pct { font-size: 12px; font-weight: 700; color: #94a3b8; width: 34px; text-align: right; flex-shrink: 0; }
+    .compat-tag {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+      flex-shrink: 0; width: 44px; text-align: center;
+    }
+    .compat-tag.s5 { background: rgba(236,72,153,.2); color: #f9a8d4; }
+    .compat-tag.s4 { background: rgba(124,58,237,.2); color: #c4b5fd; }
+    .compat-tag.s3 { background: rgba(100,116,139,.2); color: #94a3b8; }
+    .compat-tag.s2 { background: rgba(71,85,105,.15); color: #64748b; }
+    .compat-tag.s1 { background: rgba(30,30,46,.8); color: #475569; }
+
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
@@ -373,32 +397,74 @@
       "새벽 감성형": {
         emoji: "🌙", desc: "감성적이고 사색적인 밤을 좋아하는 타입",
         advice: ["감성이 깊은 만큼 공감해주는 사람이 필요해요.", "혼자만의 시간이 오히려 충전이 돼요.", "음악형이랑 취향 잘 맞아요."],
-        matchVibe: "음악형"
+        matchVibe: "음악형",
+        compat: {
+          "음악형":       { score: 95, comment: "플리 공유하면 말 없어도 바로 연결되는 사이 🎧" },
+          "잔잔형":       { score: 72 },
+          "집콕형":       { score: 58 },
+          "표현형":       { score: 48 },
+          "즉흥 에너지형":{ score: 15 }
+        }
       },
       "즉흥 에너지형": {
         emoji: "🔥", desc: "활동적이고 즉흥적인 에너지 넘치는 타입",
         advice: ["자유롭게 움직일 때 가장 빛나요.", "같이 뭔가를 하는 관계가 잘 맞아요.", "표현형이랑 케미 최고예요."],
-        matchVibe: "표현형"
+        matchVibe: "표현형",
+        compat: {
+          "표현형":       { score: 93, comment: "같이 있으면 에너지가 폭발함 — 심심할 틈이 없는 사이 🔥" },
+          "음악형":       { score: 52 },
+          "집콕형":       { score: 35 },
+          "잔잔형":       { score: 25 },
+          "새벽 감성형":  { score: 15 }
+        }
       },
       "집콕형": {
         emoji: "🏠", desc: "집에서 편안한 시간을 즐기는 타입",
         advice: ["집이 최고인 사람, 그 에너지 유지해요.", "조용히 함께 있는 시간이 행복이에요.", "잔잔형이랑 잘 맞아요."],
-        matchVibe: "잔잔형"
+        matchVibe: "잔잔형",
+        compat: {
+          "잔잔형":       { score: 91, comment: "같이 집에서 뒹굴면 그게 제일 행복한 사이 🏠" },
+          "새벽 감성형":  { score: 58 },
+          "음악형":       { score: 55 },
+          "표현형":       { score: 38 },
+          "즉흥 에너지형":{ score: 20 }
+        }
       },
       "표현형": {
         emoji: "✨", desc: "감정 표현이 풍부하고 솔직한 타입",
-        advice: ["솔직한 표현이 가장 큰 매력이에요.", "받아줄 수 있는 사람이 곁에 있어야 해요.", "새벽 감성형이랑 잘 맞아요."],
-        matchVibe: "새벽 감성형"
+        advice: ["솔직한 표현이 가장 큰 매력이에요.", "받아줄 수 있는 사람이 곁에 있어야 해요.", "즉흥 에너지형이랑 잘 맞아요."],
+        matchVibe: "즉흥 에너지형",
+        compat: {
+          "즉흥 에너지형":{ score: 93, comment: "서로 에너지 주고받으면서 시너지 폭발하는 사이 ✨" },
+          "새벽 감성형":  { score: 60 },
+          "음악형":       { score: 50 },
+          "집콕형":       { score: 38 },
+          "잔잔형":       { score: 30 }
+        }
       },
       "음악형": {
         emoji: "🎧", desc: "음악과 함께 감정을 깊이 느끼는 타입",
         advice: ["감성이 공유될 때 가장 연결되는 느낌이 있어요.", "취향 맞는 사람 만나면 진짜 잘 맞아요.", "새벽 감성형이랑 케미 좋아요."],
-        matchVibe: "새벽 감성형"
+        matchVibe: "새벽 감성형",
+        compat: {
+          "새벽 감성형":  { score: 95, comment: "말 안 해도 취향이 통하는 사이 — 플리만 공유해도 OK 🌙" },
+          "잔잔형":       { score: 68 },
+          "집콕형":       { score: 55 },
+          "표현형":       { score: 45 },
+          "즉흥 에너지형":{ score: 18 }
+        }
       },
       "잔잔형": {
         emoji: "🌊", desc: "잔잔하고 평온한 일상을 좋아하는 타입",
         advice: ["조용하고 안정적인 게 제일 편해요.", "소소한 행복이 더 좋은 타입이에요.", "집콕형이랑 잘 맞아요."],
-        matchVibe: "집콕형"
+        matchVibe: "집콕형",
+        compat: {
+          "집콕형":       { score: 91, comment: "조용히 같이 있는 것만으로 충분한 사이 🌊" },
+          "새벽 감성형":  { score: 72 },
+          "음악형":       { score: 68 },
+          "표현형":       { score: 35 },
+          "즉흥 에너지형":{ score: 18 }
+        }
       }
     };
 
@@ -568,6 +634,30 @@
 
       if (window.saveVibeType) window.saveVibeType(vibe);
 
+      // 궁합 계산
+      const compatSorted = Object.entries(v.compat || {})
+        .sort((a, b) => b[1].score - a[1].score);
+      const getTag = s => s >= 85 ? ['s5','찰떡'] : s >= 65 ? ['s4','잘맞음'] : s >= 45 ? ['s3','보통'] : s >= 30 ? ['s2','달라요'] : ['s1','정반대'];
+      const topComment = compatSorted[0]?.[1]?.comment || '';
+
+      const compatHTML = compatSorted.length ? `
+        <div class="section-title">💘 유형별 궁합</div>
+        ${topComment ? `<div class="compat-top">${topComment}</div>` : ''}
+        <div class="compat-list">
+          ${compatSorted.map(([name, data]) => {
+            const [cls, label] = getTag(data.score);
+            const ve = vibeData[name];
+            return `<div class="compat-item">
+              <span class="compat-emoji">${ve.emoji}</span>
+              <span class="compat-name">${name}</span>
+              <div class="compat-bar-wrap"><div class="compat-bar-fill" style="width:${data.score}%"></div></div>
+              <span class="compat-pct">${data.score}%</span>
+              <span class="compat-tag ${cls}">${label}</span>
+            </div>`;
+          }).join('')}
+        </div>
+      ` : '';
+
       el.innerHTML = `
         <div style="text-align:center;padding:28px 0 8px;">
           <div style="font-size:22px;font-weight:800;color:#f1f5f9;letter-spacing:-0.3px;margin-bottom:6px;">
@@ -586,6 +676,8 @@
             </div>
           `).join('')}
         </div>
+
+        ${compatHTML}
 
         <div class="vibe-cta">
           <p>이 유형이랑 진짜 잘 맞는 사람 찾아볼래? 👀</p>
