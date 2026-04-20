@@ -342,15 +342,27 @@
     // URL에서 uid 파싱
     const uid = new URLSearchParams(window.location.search).get('uid');
 
-    async function saveVibeType(type) {
-      if (!uid) return;
-      try {
-        await updateDoc(doc(db, 'users', uid), { vibeType: type });
-        console.log('vibe 유형 저장 완료:', type);
-      } catch (e) {
-        console.error('저장 실패:', e);
-      }
-    }
+// 퀴즈 결과 → 앱 코드 매핑 (E/X/F/S)
+const vibeCodeMap = {
+  "새벽 감성형": "E",
+  "음악형":      "E",
+  "즉흥 에너지형": "X",
+  "표현형":      "X",
+  "잔잔형":      "F",
+  "집콕형":      "S",
+};
+
+async function saveVibeType(type) {
+  if (!uid) return;
+  const code = vibeCodeMap[type];
+  if (!code) { console.warn('매핑 없는 유형:', type); return; }
+  try {
+    await updateDoc(doc(db, 'users', uid), { vibeType: code });
+    console.log('vibe 유형 저장 완료:', type, '→', code);
+  } catch (e) {
+    console.error('저장 실패:', e);
+  }
+}
 
     // 전역 함수로 노출
     window.saveVibeType = saveVibeType;
