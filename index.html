@@ -376,13 +376,15 @@
       "집콕형":      "S",
     };
 
-    async function saveVibeType(type) {
+    async function saveVibeType(type, loveType) {
       if (!uid) return;
       const code = vibeCodeMap[type];
       if (!code) { console.warn('매핑 없는 유형:', type); return; }
       try {
-        await updateDoc(doc(db, 'users', uid), { vibeType: code });
-        console.log('vibe 유형 저장 완료:', type, '→', code);
+        const data = { vibeType: code };
+        if (loveType) data.loveType = loveType;
+        await updateDoc(doc(db, 'users', uid), data);
+        console.log('vibe 유형 저장 완료:', type, '→', code, '/ 연애 성향:', loveType);
       } catch (e) {
         console.error('저장 실패:', e);
       }
@@ -632,7 +634,7 @@
         lines: [v.desc, "자신만의 연애 스타일이 있는 타입이야"]
       };
 
-      if (window.saveVibeType) window.saveVibeType(vibe);
+      if (window.saveVibeType) window.saveVibeType(vibe, loveType);
 
       // 궁합 계산
       const compatSorted = Object.entries(v.compat || {})
