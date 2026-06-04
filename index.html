@@ -1,719 +1,717 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎬 진짜 나를 알아가는 테스트</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>VIBE × 연애 성향 테스트 — 감성 스티커</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&family=Gowun+Dodum&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   VIBE × 연애 성향 테스트 — 감성 스티커 다이어리
+   웜화이트 줄노트 + 손글씨(Dongle) + 더스티핑크/세이지 + 스티커칩
+   ============================================================ */
 
-    body {
-      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-      background: #0f0f1a;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-    }
+:root {
+  --paper: #fbf6ec;
+  --ink: #4a4038;
+  --sub: #9b8e80;
+  --pink: #cf8597;
+  --pink-dk: #b06b7e;
+  --sage: #88997a;
+  --line: rgba(207, 133, 151, 0.20);
+  --hand: "Dongle", sans-serif;
+  --body: "Gowun Dodum", sans-serif;
+}
 
-    .bg-blur {
-      position: fixed;
-      width: 400px; height: 400px;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.15;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .bg-blur.purple { background: #7c3aed; top: -100px; left: -100px; }
-    .bg-blur.pink   { background: #ec4899; bottom: -100px; right: -100px; }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-    .container {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 480px;
-      padding: 24px 20px;
-    }
+html, body {
+  background: #efe7d8;
+  color: var(--ink);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+}
+body { display: flex; justify-content: center; }
+#root { width: 100%; max-width: 480px; }
 
-    /* ─── INTRO ─── */
-    #intro {
-      text-align: center;
-      animation: fadeIn .6s ease;
-    }
-    #intro .emoji { font-size: 64px; margin-bottom: 16px; display: block; }
-    #intro h1 {
-      font-size: 26px; font-weight: 800;
-      line-height: 1.4;
-      background: linear-gradient(135deg, #a78bfa, #ec4899);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    #intro p {
-      margin-top: 12px; font-size: 15px;
-      color: #94a3b8; line-height: 1.6;
-    }
-    #intro .meta {
-      display: flex; justify-content: center; gap: 20px;
-      margin: 20px 0;
-    }
-    #intro .meta span {
-      font-size: 13px; color: #64748b;
-      background: #1e1e2e; padding: 6px 14px;
-      border-radius: 20px; border: 1px solid #2d2d44;
-    }
-    .btn-start {
-      display: inline-block; margin-top: 8px;
-      padding: 16px 48px; font-size: 17px; font-weight: 700;
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      border: none; border-radius: 50px; color: #fff;
-      cursor: pointer; transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 4px 24px rgba(124,58,237,.4);
-    }
-    .btn-start:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,.5); }
+.s-app {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--paper);
+  background-image: linear-gradient(transparent 31px, var(--line) 31px, var(--line) 32px, transparent 32px);
+  background-size: 100% 32px;
+  box-shadow: 0 0 60px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+.s-app::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 38px;
+  width: 2px;
+  background: rgba(207,133,151,0.45);
+  z-index: 0;
+}
 
-    /* ─── QUIZ ─── */
-    #quiz { display: none; }
+.s-screen { position: relative; z-index: 1; padding: 30px 24px 36px; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
 
-    .progress-wrap {
-      margin-bottom: 20px;
-    }
-    .progress-info {
-      display: flex; justify-content: space-between;
-      font-size: 13px; color: #64748b; margin-bottom: 8px;
-    }
-    .progress-bar {
-      height: 6px; background: #1e1e2e; border-radius: 10px; overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #7c3aed, #ec4899);
-      border-radius: 10px;
-      transition: width .4s ease;
-    }
+/* 손글씨 데코 */
+.s-date { font-family: var(--hand); font-size: 19px; color: var(--sub); letter-spacing: 0.02em; line-height: 1; white-space: nowrap; }
+.s-hand-h { font-family: var(--hand); font-size: 32px; color: var(--ink); line-height: 1; }
 
-    .question-card {
-      background: #161628;
-      border: 1px solid #2d2d44;
-      border-radius: 20px;
-      padding: 28px 24px;
-      animation: slideUp .4s ease;
-    }
-    .question-label {
-      font-size: 12px; font-weight: 600; letter-spacing: 1px;
-      color: #7c3aed; margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-    .category-badge {
-      display: inline-block;
-      font-size: 11px; padding: 3px 10px;
-      background: #1e1e2e; border: 1px solid #2d2d44;
-      border-radius: 20px; color: #a78bfa;
-      margin-bottom: 14px;
-    }
-    .question-text {
-      font-size: 19px; font-weight: 700; line-height: 1.5;
-      margin-bottom: 22px; color: #f1f5f9;
-    }
+/* 스티커 칩 */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-weight: 700; font-size: 14px; white-space: nowrap;
+  padding: 9px 15px; background: #fff; color: var(--ink);
+  border-radius: 100px; border: 1.5px solid rgba(0,0,0,0.05);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.06), 0 5px 12px -5px rgba(0,0,0,0.3);
+}
+.chip.pink { background: var(--pink); color: #fff; border-color: transparent; }
+.chip.sage { background: var(--sage); color: #fff; border-color: transparent; }
+.chip.sm { font-size: 12.5px; padding: 6px 12px; }
 
-    .options { display: flex; flex-direction: column; gap: 10px; }
-    .option-btn {
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 18px; border-radius: 14px;
-      background: #1e1e2e; border: 1.5px solid #2d2d44;
-      color: #e2e8f0; font-size: 15px; font-weight: 500;
-      cursor: pointer; transition: all .2s; text-align: left;
-    }
-    .option-btn:hover {
-      border-color: #7c3aed; background: #1e1e38;
-      transform: translateX(4px);
-    }
-    .option-btn.selected {
-      border-color: #ec4899;
-      background: linear-gradient(135deg, rgba(124,58,237,.15), rgba(236,72,153,.15));
-      color: #fff;
-    }
-    .option-key {
-      width: 32px; height: 32px; border-radius: 10px;
-      background: #2d2d44; display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; flex-shrink: 0;
-      transition: background .2s;
-    }
-    .option-btn.selected .option-key {
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-    }
+/* 버튼 */
+.s-btn {
+  display: block; width: 100%; cursor: pointer;
+  font-family: var(--hand); font-size: 24px; line-height: 1.1;
+  color: #fff; background: var(--pink); border: none;
+  border-radius: 16px; padding: 13px;
+  box-shadow: 3px 3px 0 var(--pink-dk);
+  transition: transform 0.1s, box-shadow 0.1s, opacity 0.2s;
+  white-space: nowrap;
+}
+.s-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--pink-dk); }
+.s-btn:disabled { opacity: 0.55; box-shadow: 3px 3px 0 rgba(0,0,0,0.12); cursor: default; }
+.s-btn.ghost {
+  background: transparent; color: var(--ink);
+  border: 2px dashed var(--sub); box-shadow: none;
+  font-size: 21px; padding: 11px;
+}
+.s-btn.ghost:active { transform: none; background: rgba(0,0,0,0.03); }
 
-    .nav-row {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-top: 20px;
-    }
-    .btn-nav {
-      padding: 12px 24px; border-radius: 12px; font-size: 14px; font-weight: 600;
-      border: none; cursor: pointer; transition: all .2s;
-    }
-    .btn-prev {
-      background: #1e1e2e; border: 1.5px solid #2d2d44; color: #94a3b8;
-    }
-    .btn-prev:hover { border-color: #4a4a6a; color: #fff; }
-    .btn-next {
-      padding: 12px 28px;
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      color: #fff; box-shadow: 0 4px 16px rgba(124,58,237,.35);
-    }
-    .btn-next:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,.45); }
-    .btn-next:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+/* ---------------- 인트로 ---------------- */
+.s-intro { justify-content: center; align-items: center; text-align: center; gap: 0; }
+.s-intro .s-title {
+  font-family: var(--hand); font-weight: 700; font-size: 38px;
+  line-height: 1.22; color: var(--ink); margin: 6px 0 12px;
+}
+.s-title .tl { display: block; white-space: nowrap; }
+.s-intro .s-title b { color: var(--pink); font-weight: 700; }
+.s-sub { font-size: 14.5px; color: var(--sub); line-height: 1.75; }
 
-    /* ─── RESULT ─── */
-    #result { display: none; animation: fadeIn .6s ease; }
+.note {
+  width: 100%;
+  background: rgba(255,255,255,0.7);
+  border: 1.5px solid rgba(0,0,0,0.06);
+  border-radius: 6px;
+  padding: 18px;
+  box-shadow: 2px 3px 10px -4px rgba(0,0,0,0.2);
+}
+.s-meta { display: flex; justify-content: space-around; text-align: center; margin: 22px 0; }
+.s-meta .m-num { font-family: var(--hand); font-size: 30px; color: var(--pink); line-height: 0.9; white-space: nowrap; }
+.s-meta .m-label { font-size: 11.5px; color: var(--sub); }
 
-    .result-header { text-align: center; margin-bottom: 28px; }
-    .result-header .emoji { font-size: 52px; margin-bottom: 10px; display: block; }
-    .result-header h2 {
-      font-size: 22px; font-weight: 800;
-      background: linear-gradient(135deg, #a78bfa, #ec4899);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .result-header p { font-size: 14px; color: #64748b; margin-top: 6px; }
+.s-chips { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-bottom: 30px; }
+.s-chips .chip { justify-content: flex-start; font-size: 14px; padding: 13px 16px; }
 
-    .result-section { margin-bottom: 20px; }
-    .section-title {
-      font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
-      color: #7c3aed; text-transform: uppercase; margin-bottom: 10px;
-      padding-left: 4px;
-    }
-    .advice-box {
-      background: #161628; border: 1px solid #2d2d44;
-      border-radius: 18px; padding: 20px 22px;
-      display: flex; flex-direction: column; gap: 0;
-    }
-    .advice-line {
-      display: flex; align-items: flex-start; gap: 12px;
-      font-size: 14px; color: #cbd5e1; line-height: 1.7;
-      padding: 12px 0;
-    }
-    .advice-line + .advice-line { border-top: 1px solid #1e1e38; }
-    .advice-dot {
-      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 8px;
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-    }
+.s-foot { font-family: var(--hand); font-size: 20px; color: var(--sub); margin-top: 14px; }
+.s-intro .s-btn, .s-intro .s-chips, .s-intro .note { width: 100%; }
+.intro-stack { width: 100%; }
 
-    .big-types {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 10px; margin: 24px 0;
-    }
-    .type-card {
-      background: #161628; border: 1px solid #2d2d44;
-      border-radius: 16px; padding: 16px; text-align: center;
-    }
-    .type-card .icon { font-size: 28px; margin-bottom: 6px; }
-    .type-card .name {
-      font-size: 14px; font-weight: 700; color: #f1f5f9;
-    }
-    .type-card .sub { font-size: 12px; color: #64748b; margin-top: 2px; }
+/* ---------------- 퀴즈 ---------------- */
+.topbar { display: flex; align-items: center; gap: 12px; padding-bottom: 6px; }
+.back {
+  flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+  border: 2px dashed var(--sub); background: transparent; color: var(--sub);
+  font-size: 22px; line-height: 1; cursor: pointer; padding-bottom: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--body);
+}
+.back:disabled { opacity: 0.3; }
+.dots { flex: 1; display: flex; gap: 3px; }
+.dots .d { flex: 1; height: 7px; border-radius: 4px; background: rgba(0,0,0,0.09); }
+.dots .d.on { background: var(--pink); }
+.counter { flex-shrink: 0; font-family: var(--hand); font-size: 30px; color: var(--ink); min-width: 56px; text-align: right; line-height: 1; }
+.counter .tot { color: var(--sub); }
 
-    .btn-row {
-      display: flex; gap: 10px; margin-top: 24px;
-    }
-    .btn-retry, .btn-copy {
-      flex: 1; padding: 14px; border-radius: 14px;
-      font-size: 14px; font-weight: 700; border: none; cursor: pointer;
-      transition: all .2s;
-    }
-    .btn-retry {
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      color: #fff; box-shadow: 0 4px 16px rgba(124,58,237,.35);
-    }
-    .btn-retry:hover { transform: translateY(-1px); }
-    .btn-copy {
-      background: #1e1e2e; border: 1.5px solid #2d2d44; color: #94a3b8;
-    }
-    .btn-copy:hover { border-color: #4a4a6a; color: #fff; }
+.quiz-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 26px; }
+.q-note { min-height: 188px; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.q-index { font-family: var(--hand); font-size: 26px; color: var(--pink); line-height: 1; }
+.q-text { font-size: 23px; font-weight: 700; line-height: 1.5; color: var(--ink); letter-spacing: -0.01em; text-wrap: pretty; }
 
-    .vibe-cta {
-      text-align: center; margin-top: 20px; margin-bottom: 4px;
-      padding: 20px;
-      background: #161628; border: 1px solid #2d2d44; border-radius: 16px;
-    }
-    .vibe-cta p {
-      font-size: 14px; color: #94a3b8; line-height: 1.7; margin: 0 0 16px;
-    }
-    .vibe-btn {
-      display: block; width: 100%;
-      padding: 13px; border-radius: 12px; margin-bottom: 8px;
-      font-size: 14px; font-weight: 700; border: none; cursor: pointer;
-      transition: all .2s; text-decoration: none;
-    }
-    .vibe-btn:last-child { margin-bottom: 0; }
-    .vibe-btn-main {
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      color: #fff; box-shadow: 0 4px 16px rgba(124,58,237,.3);
-    }
-    .vibe-btn-main:hover { transform: translateY(-1px); }
-    .vibe-btn-sub {
-      background: #1e1e2e; border: 1.5px solid #2d2d44; color: #c4b5fd;
-    }
-    .vibe-btn-sub:hover { border-color: #7c3aed; }
+@media (prefers-reduced-motion: no-preference) {
+  .q-note { animation: noteIn 0.4s cubic-bezier(0.2,0.8,0.2,1); }
+}
+@keyframes noteIn { from { transform: translateY(14px) rotate(-0.6deg); } to { transform: none; } }
 
-    .scale-btns { display: flex; gap: 6px; margin-top: 8px; }
-    .scale-btn {
-      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px;
-      padding: 14px 4px; border-radius: 14px;
-      background: #1e1e2e; border: 2px solid #2d2d44; color: #64748b;
-      cursor: pointer; transition: all .2s; font-size: 10px; line-height: 1.4; text-align: center;
-    }
-    .scale-btn .scale-num { font-size: 17px; font-weight: 800; color: #94a3b8; }
-    .scale-btn:hover { border-color: #7c3aed; transform: translateY(-2px); color: #c4b5fd; }
-    .scale-btn:hover .scale-num { color: #a78bfa; }
-    .scale-btn.selected {
-      background: linear-gradient(135deg, rgba(124,58,237,.25), rgba(236,72,153,.25));
-      border-color: #ec4899; color: #f9a8d4;
-    }
-    .scale-btn.selected .scale-num { color: #fff; }
-    .section-tag {
-      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px;
-      padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
-    }
-    .section-tag.vibe { background: rgba(129,140,248,.15); color: #818cf8; border: 1px solid rgba(129,140,248,.3); }
-    .section-tag.love { background: rgba(236,72,153,.15); color: #ec4899; border: 1px solid rgba(236,72,153,.3); }
-    .love-badges { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 20px; }
-    .love-badge {
-      padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700;
-      background: #161628; border: 1px solid #2d2d44; color: #c4b5fd;
-    }
-    /* ─── COMPAT ─── */
-    .compat-top {
-      background: linear-gradient(135deg, rgba(124,58,237,.12), rgba(236,72,153,.12));
-      border: 1px solid rgba(236,72,153,.25);
-      border-radius: 14px; padding: 14px 18px; margin-bottom: 14px;
-      font-size: 14px; color: #f9a8d4; font-weight: 600; text-align: center; line-height: 1.6;
-    }
-    .compat-list { display: flex; flex-direction: column; gap: 11px; margin-bottom: 20px; }
-    .compat-item { display: flex; align-items: center; gap: 8px; }
-    .compat-emoji { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
-    .compat-name { font-size: 12px; font-weight: 700; color: #e2e8f0; width: 76px; flex-shrink: 0; }
-    .compat-bar-wrap { flex: 1; height: 7px; background: #1e1e2e; border-radius: 10px; overflow: hidden; }
-    .compat-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #7c3aed, #ec4899); }
-    .compat-pct { font-size: 12px; font-weight: 700; color: #94a3b8; width: 34px; text-align: right; flex-shrink: 0; }
-    .compat-tag {
-      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
-      flex-shrink: 0; width: 44px; text-align: center;
-    }
-    .compat-tag.s5 { background: rgba(236,72,153,.2); color: #f9a8d4; }
-    .compat-tag.s4 { background: rgba(124,58,237,.2); color: #c4b5fd; }
-    .compat-tag.s3 { background: rgba(100,116,139,.2); color: #94a3b8; }
-    .compat-tag.s2 { background: rgba(71,85,105,.15); color: #64748b; }
-    .compat-tag.s1 { background: rgba(30,30,46,.8); color: #475569; }
+/* 손그림 척도 */
+.ticks { display: flex; align-items: center; justify-content: space-between; padding: 0 2px; }
+.tick {
+  border: 2.5px solid var(--sub); border-radius: 50%;
+  background: transparent; cursor: pointer; position: relative; flex-shrink: 0;
+  transition: transform 0.12s, background 0.15s, border-color 0.15s;
+}
+.tick:active { transform: scale(0.9); }
+.tick.sel { background: var(--pink); border-color: var(--pink); box-shadow: 0 4px 10px -3px rgba(176,107,126,0.6); }
+.tick.sel::after {
+  content: "✓"; position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 19px; font-weight: 700; font-family: var(--body);
+}
+.ends { display: flex; justify-content: space-between; font-family: var(--hand); font-size: 18px; color: var(--sub); margin-top: 8px; }
+.ends span { white-space: nowrap; }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+/* ---------------- 결과 ---------------- */
+.s-result { display: block; padding-top: 30px; }
+.r-hero { text-align: center; position: relative; padding: 8px 0 22px; }
+.stamp {
+  position: absolute; top: 0; right: 4px;
+  width: 78px; height: 78px; border: 2.5px solid var(--pink); border-radius: 50%;
+  color: var(--pink); display: flex; align-items: center; justify-content: center;
+  text-align: center; font-family: var(--hand); font-size: 21px; line-height: 0.95;
+  transform: rotate(-12deg); opacity: 0.66; mix-blend-mode: multiply;
+}
+.stamp::before { content: ""; position: absolute; inset: 5px; border: 1.5px solid var(--pink); border-radius: 50%; }
+.hero-emoji { font-size: 66px; line-height: 1; }
+@media (prefers-reduced-motion: no-preference) { .hero-emoji { animation: pop 0.6s cubic-bezier(0.2,1.4,0.4,1); } }
+@keyframes pop { from { transform: scale(0.55); } to { transform: scale(1); } }
+.hero-kicker { font-family: var(--hand); font-size: 24px; color: var(--sub); line-height: 1; }
+.hero-name { font-family: var(--hand); font-weight: 700; font-size: 62px; color: var(--pink); line-height: 1.02; margin: 2px 0 8px; }
+.hero-line { font-size: 14.5px; color: var(--sub); line-height: 1.55; margin-bottom: 14px; text-wrap: pretty; }
+
+.block { margin-top: 22px; }
+.block-title { font-family: var(--hand); font-size: 26px; color: var(--ink); margin-bottom: 12px; line-height: 1; }
+.psych-text { font-size: 14px; line-height: 1.78; color: var(--ink); text-wrap: pretty; }
+
+.love-badges { display: flex; gap: 10px; margin-bottom: 12px; }
+.love-badge { flex: 1; display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid rgba(0,0,0,0.06); border-radius: 14px; padding: 13px; box-shadow: 0 3px 10px -5px rgba(0,0,0,0.3); }
+.lb-emoji { font-size: 26px; line-height: 1; }
+.lb-meta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.lb-kind { font-size: 11px; color: var(--sub); }
+.lb-name { font-size: 15px; font-weight: 700; white-space: nowrap; }
+.love-desc { font-size: 13.5px; line-height: 1.7; color: var(--sub); text-wrap: pretty; }
+
+.compat { display: flex; flex-direction: column; gap: 12px; }
+.compat-row { display: flex; align-items: center; gap: 11px; }
+.compat-name { width: 98px; font-size: 13.5px; font-weight: 700; flex-shrink: 0; }
+.compat-track { flex: 1; height: 11px; background: rgba(0,0,0,0.07); border: 1.5px solid rgba(0,0,0,0.07); border-radius: 100px; overflow: hidden; }
+.compat-fill { height: 100%; background: var(--pink); border-radius: 100px; }
+.compat-score { font-family: var(--hand); font-size: 22px; color: var(--pink-dk); width: 30px; text-align: right; flex-shrink: 0; line-height: 1; }
+
+.advice-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.advice-item { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.55; color: var(--ink); text-wrap: pretty; }
+.pen-check { color: var(--pink); font-family: var(--hand); font-size: 26px; line-height: 0.8; flex-shrink: 0; }
+
+.match-card { display: flex; align-items: center; gap: 13px; background: #fff; border: 1.5px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 15px; box-shadow: 0 4px 14px -6px rgba(0,0,0,0.35); }
+@media (prefers-reduced-motion: no-preference) { .match-block { animation: noteIn 0.4s ease; } }
+.match-emoji { font-size: 40px; line-height: 1; }
+.match-meta { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.match-name { font-family: var(--hand); font-size: 30px; color: var(--ink); line-height: 0.95; }
+.match-line { font-size: 12px; color: var(--sub); line-height: 1.45; }
+.match-score { font-family: var(--hand); font-size: 40px; color: var(--pink); line-height: 0.8; }
+.match-score small { font-size: 18px; }
+
+.actions { margin-top: 26px; display: flex; flex-direction: column; gap: 10px; }
+.actions-row { display: flex; gap: 10px; }
+.actions-row .s-btn { flex: 1; }
+
+@media (max-width: 360px) {
+  .s-intro .s-title { font-size: 50px; }
+  .hero-name { font-size: 54px; }
+  .compat-name { width: 86px; font-size: 12.5px; }
+}
+</style>
 </head>
 <body>
-  <div class="bg-blur purple"></div>
-  <div class="bg-blur pink"></div>
+  <div id="root"></div>
 
-  <div class="container">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-    <!-- INTRO -->
-    <div id="intro">
-      <span class="emoji">🎧</span>
-      <h1>바이브 + 연애 성향<br>테스트</h1>
-      <p>20개 문장에 1~5점으로 답하면<br>내 감성 유형과 연애 스타일이 나와요</p>
-      <div class="meta">
-        <span>🌙 감성 10문항</span>
-        <span>❤️ 연애 10문항</span>
-      </div>
-      <button class="btn-start" onclick="startQuiz()">테스트 시작하기</button>
-    </div>
-
-    <!-- QUIZ -->
-    <div id="quiz">
-      <div class="progress-wrap">
-        <div class="progress-info">
-          <span id="q-count">1 / 20</span>
-          <span id="q-percent">0%</span>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-      </div>
-      <div class="question-card" id="q-card">
-        <!-- injected by JS -->
-      </div>
-      <div class="nav-row">
-        <button class="btn-nav btn-prev" onclick="prevQ()" id="btn-prev">← 이전</button>
-        <button class="btn-nav btn-next" onclick="nextQ()" id="btn-next" disabled>다음 →</button>
-      </div>
-    </div>
-
-    <!-- RESULT -->
-    <div id="result"></div>
-
-  </div>
-
+  <!-- Firebase 연동 -->
   <script type="module">
-    // ── Firebase 저장 ──
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getFirestore, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
-    const firebaseApp = initializeApp({
+    const app = initializeApp({
       apiKey: "AIzaSyAw8Wdw_c-k9DZa9EWyKB3WCnBC5HEMTzA",
       authDomain: "vibe-56a26.firebaseapp.com",
       projectId: "vibe-56a26",
       appId: "1:811210478039:web:2e8944c322d4b78d2cfb92"
     });
-    const db = getFirestore(firebaseApp);
-
-    // URL에서 uid 파싱
+    const db = getFirestore(app);
     const uid = new URLSearchParams(window.location.search).get('uid');
-
-    // 퀴즈 결과 → 앱 코드 매핑 (E/X/F/S)
-    const vibeCodeMap = {
-      "새벽 감성형": "E",
-      "음악형":      "E",
-      "즉흥 에너지형": "X",
-      "표현형":      "X",
-      "잔잔형":      "F",
-      "집콕형":      "S",
-    };
-
-    async function saveVibeType(type, loveType) {
+    window.saveVibeType = async function(type) {
       if (!uid) return;
-      const code = vibeCodeMap[type];
-      if (!code) { console.warn('매핑 없는 유형:', type); return; }
-      try {
-        const data = { vibeType: code };
-        if (loveType) data.loveType = loveType;
-        await updateDoc(doc(db, 'users', uid), data);
-        console.log('vibe 유형 저장 완료:', type, '→', code, '/ 연애 성향:', loveType);
-      } catch (e) {
-        console.error('저장 실패:', e);
-      }
-    }
-
-    // 전역 함수로 노출
-    window.saveVibeType = saveVibeType;
-    window.uid = uid;
+      try { await updateDoc(doc(db, 'users', uid), { vibeType: type }); }
+      catch(e) { console.error('vibe 저장 실패:', e); }
+    };
   </script>
+
   <script>
-    const vibeData = {
-      "새벽 감성형": {
-        emoji: "🌙", desc: "감성적이고 사색적인 밤을 좋아하는 타입",
-        advice: ["감성이 깊은 만큼 공감해주는 사람이 필요해요.", "혼자만의 시간이 오히려 충전이 돼요.", "음악형이랑 취향 잘 맞아요."],
-        matchVibe: "음악형",
-        compat: {
-          "음악형":       { score: 95, comment: "플리 공유하면 말 없어도 바로 연결되는 사이 🎧" },
-          "잔잔형":       { score: 72 },
-          "집콕형":       { score: 58 },
-          "표현형":       { score: 48 },
-          "즉흥 에너지형":{ score: 15 }
-        }
-      },
-      "즉흥 에너지형": {
-        emoji: "🔥", desc: "활동적이고 즉흥적인 에너지 넘치는 타입",
-        advice: ["자유롭게 움직일 때 가장 빛나요.", "같이 뭔가를 하는 관계가 잘 맞아요.", "표현형이랑 케미 최고예요."],
-        matchVibe: "표현형",
-        compat: {
-          "표현형":       { score: 93, comment: "같이 있으면 에너지가 폭발함 — 심심할 틈이 없는 사이 🔥" },
-          "음악형":       { score: 52 },
-          "집콕형":       { score: 35 },
-          "잔잔형":       { score: 25 },
-          "새벽 감성형":  { score: 15 }
-        }
-      },
-      "집콕형": {
-        emoji: "🏠", desc: "집에서 편안한 시간을 즐기는 타입",
-        advice: ["집이 최고인 사람, 그 에너지 유지해요.", "조용히 함께 있는 시간이 행복이에요.", "잔잔형이랑 잘 맞아요."],
-        matchVibe: "잔잔형",
-        compat: {
-          "잔잔형":       { score: 91, comment: "같이 집에서 뒹굴면 그게 제일 행복한 사이 🏠" },
-          "새벽 감성형":  { score: 58 },
-          "음악형":       { score: 55 },
-          "표현형":       { score: 38 },
-          "즉흥 에너지형":{ score: 20 }
-        }
-      },
-      "표현형": {
-        emoji: "✨", desc: "감정 표현이 풍부하고 솔직한 타입",
-        advice: ["솔직한 표현이 가장 큰 매력이에요.", "받아줄 수 있는 사람이 곁에 있어야 해요.", "즉흥 에너지형이랑 잘 맞아요."],
-        matchVibe: "즉흥 에너지형",
-        compat: {
-          "즉흥 에너지형":{ score: 93, comment: "서로 에너지 주고받으면서 시너지 폭발하는 사이 ✨" },
-          "새벽 감성형":  { score: 60 },
-          "음악형":       { score: 50 },
-          "집콕형":       { score: 38 },
-          "잔잔형":       { score: 30 }
-        }
-      },
-      "음악형": {
-        emoji: "🎧", desc: "음악과 함께 감정을 깊이 느끼는 타입",
-        advice: ["감성이 공유될 때 가장 연결되는 느낌이 있어요.", "취향 맞는 사람 만나면 진짜 잘 맞아요.", "새벽 감성형이랑 케미 좋아요."],
-        matchVibe: "새벽 감성형",
-        compat: {
-          "새벽 감성형":  { score: 95, comment: "말 안 해도 취향이 통하는 사이 — 플리만 공유해도 OK 🌙" },
-          "잔잔형":       { score: 68 },
-          "집콕형":       { score: 55 },
-          "표현형":       { score: 45 },
-          "즉흥 에너지형":{ score: 18 }
-        }
-      },
-      "잔잔형": {
-        emoji: "🌊", desc: "잔잔하고 평온한 일상을 좋아하는 타입",
-        advice: ["조용하고 안정적인 게 제일 편해요.", "소소한 행복이 더 좋은 타입이에요.", "집콕형이랑 잘 맞아요."],
-        matchVibe: "집콕형",
-        compat: {
-          "집콕형":       { score: 91, comment: "조용히 같이 있는 것만으로 충분한 사이 🌊" },
-          "새벽 감성형":  { score: 72 },
-          "음악형":       { score: 68 },
-          "표현형":       { score: 35 },
-          "즉흥 에너지형":{ score: 18 }
-        }
-      }
-    };
+/* ============================================================
+   데이터: 질문, 유형, 궁합 매트릭스
+   ============================================================ */
 
-    const questions = [
-      // VIBE — 각 질문이 특정 vibe에 점수 누적
-      { id:1,  section:"vibe", text:"혼자 있는 시간이 더 편하다",            target:["집콕형","잔잔형"] },
-      { id:2,  section:"vibe", text:"밤에 생각이 많아지는 편이다",            target:["새벽 감성형"] },
-      { id:3,  section:"vibe", text:"조용한 분위기를 좋아한다",               target:["새벽 감성형","잔잔형"] },
-      { id:4,  section:"vibe", text:"새로운 사람 만나는 건 에너지 소모다",    target:["집콕형"] },
-      { id:5,  section:"vibe", text:"음악 들을 때 감정이 크게 흔들린다",      target:["음악형"] },
-      { id:6,  section:"vibe", text:"계획보단 즉흥이 더 재밌다",              target:["즉흥 에너지형"] },
-      { id:7,  section:"vibe", text:"사람 많은 곳보다 집이 더 좋다",          target:["집콕형"] },
-      { id:8,  section:"vibe", text:"감정을 글이나 말로 잘 표현하는 편이다",  target:["표현형"] },
-      { id:9,  section:"vibe", text:"잔잔한 하루가 더 좋다",                  target:["잔잔형"] },
-      { id:10, section:"vibe", text:"활동적이고 에너지 넘치는 게 좋다",       target:["즉흥 에너지형"] },
-      // LOVE — 각 질문이 연애 성향 점수 누적
-      { id:11, section:"love", text:"연락은 자주 하는 게 좋다",               target:["contact+"] },
-      { id:12, section:"love", text:"혼자만의 시간도 중요하다",               target:["contact-"] },
-      { id:13, section:"love", text:"상대에게 감정을 솔직히 표현한다",        target:["표현형"] },
-      { id:14, section:"love", text:"상대가 먼저 다가와주길 바란다",          target:["안정형"] },
-      { id:15, section:"love", text:"안정적인 관계가 더 중요하다",            target:["안정형"] },
-      { id:16, section:"love", text:"설레는 감정이 가장 중요하다",            target:["설렘형"] },
-      { id:17, section:"love", text:"질투를 느끼는 편이다",                   target:["설렘형"] },
-      { id:18, section:"love", text:"데이트는 계획적으로 하고 싶다",          target:["안정형"] },
-      { id:19, section:"love", text:"스킨십이 중요한 편이다",                 target:["표현형"] },
-      { id:20, section:"love", text:"친구 같은 연애가 좋다",                  target:["친구형"] }
-    ];
+window.SCALE = [
+  { value: 1, label: "전혀 아니다" },
+  { value: 2, label: "아니다" },
+  { value: 3, label: "보통이다" },
+  { value: 4, label: "그렇다" },
+  { value: 5, label: "매우 그렇다" },
+];
 
-    let current = 0;
-    const answers = new Array(20).fill(null); // 1~5점
+window.VIBE_TYPES = {
+  dawn: {
+    id: "dawn", emoji: "🌙", name: "새벽 감성형",
+    big5: "개방성 高 · 신경증 中",
+    oneLiner: "고요한 밤, 감정의 결을 가장 선명하게 느끼는 사람",
+    psych: "개방성이 높고 정서적 민감도가 큰 편이에요. 풍부한 상상력과 깊은 내면세계를 가졌지만 그만큼 감정의 파동도 크게 다가옵니다. 혼자만의 시간에 사고가 가장 활발해지는 전형적인 밤의 사색가예요.",
+    advice: [
+      "넘치는 감정은 약점이 아니라 당신만의 깊이예요.",
+      "밤의 생각이 무거울 땐 글로 적어 흘려보내요.",
+      "섬세함을 알아주는 사람 곁에서 가장 편안해질 거예요.",
+    ],
+  },
+  spark: {
+    id: "spark", emoji: "🔥", name: "즉흥 에너지형",
+    big5: "외향성 高 · 성실성 低",
+    oneLiner: "지금 이 순간의 설렘을 가장 사랑하는 사람",
+    psych: "외향성이 뚜렷하고 계획성(성실성)은 낮은 편이에요. 새로운 자극과 즉흥적인 경험에서 살아있음을 느끼고 사람들 사이에서 에너지를 얻습니다. 다만 반복되는 루틴은 빠르게 지루해하는 경향이 있어요.",
+    advice: [
+      "그 에너지는 분명한 매력이에요. 마음껏 발산하세요.",
+      "가끔은 멈춰 서서 지금의 감정을 들여다보는 시간도 필요해요.",
+      "당신의 속도를 답답해하지 않는 사람과 날개를 달 거예요.",
+    ],
+  },
+  home: {
+    id: "home", emoji: "🏠", name: "집콕형",
+    big5: "외향성 低 · 성실성 中",
+    oneLiner: "내 공간 안에서 가장 단단해지는 사람",
+    psych: "외향성은 낮고 성실성은 안정적인 편이에요. 익숙하고 통제된 환경에서 깊은 안정감을 느끼며 적은 수의 깊은 관계를 선호합니다. 혼자만의 충전 시간이 곧 회복의 핵심이에요.",
+    advice: [
+      "혼자만의 시간은 게으름이 아니라 당신의 충전 방식이에요.",
+      "안전지대 밖의 작은 모험도 가끔은 선물이 돼요.",
+      "당신의 고요함을 편안해하는 사람과 가장 잘 맞아요.",
+    ],
+  },
+  express: {
+    id: "express", emoji: "✨", name: "표현형",
+    big5: "친화성 高 · 외향성 中",
+    oneLiner: "마음을 나눌 때 가장 빛나는 사람",
+    psych: "친화성이 높고 외향성도 중간 이상이에요. 감정을 솔직하게 표현하고 타인과 공명하는 데 능숙합니다. 관계 속에서 자신을 확인하고 따뜻한 교류에서 만족을 얻는 유형이에요.",
+    advice: [
+      "솔직한 표현은 관계를 살아 숨 쉬게 하는 당신의 힘이에요.",
+      "모두를 챙기느라 내 감정을 놓치지 않도록 해요.",
+      "당신의 따뜻함에 똑같이 응답하는 사람을 만나야 해요.",
+    ],
+  },
+  music: {
+    id: "music", emoji: "🎧", name: "음악형",
+    big5: "개방성 高 · 신경증 低",
+    oneLiner: "소리와 가사로 세상을 느끼는 사람",
+    psych: "개방성이 높고 정서적으로는 안정된 편이에요. 예술과 감각적 경험에 깊이 몰입하며 음악을 통해 감정을 조율하고 표현합니다. 새로운 미적 자극에 늘 열려 있는 유형이에요.",
+    advice: [
+      "감정을 음악으로 조율하는 능력은 귀한 재능이에요.",
+      "가끔은 이어폰을 빼고 현실의 소리에도 귀 기울여보세요.",
+      "취향을 함께 나눌 수 있는 사람과 깊이 통할 거예요.",
+    ],
+  },
+  calm: {
+    id: "calm", emoji: "🌊", name: "잔잔형",
+    big5: "성실성 高 · 신경증 低",
+    oneLiner: "흔들려도 결국 제자리를 찾는 사람",
+    psych: "성실성이 높고 정서적 안정성도 큰 편이에요. 감정의 진폭이 작고 일관되며 계획과 질서 속에서 편안함을 느낍니다. 주변에 차분한 안정감을 전하는 균형 잡힌 유형이에요.",
+    advice: [
+      "당신의 차분함은 주변에 안정을 주는 선물이에요.",
+      "계획에서 벗어난 순간에도 가끔 몸을 맡겨보세요.",
+      "당신의 일관됨을 신뢰로 받아주는 사람과 오래갈 거예요.",
+    ],
+  },
+};
 
-    function startQuiz() {
-      document.getElementById('intro').style.display = 'none';
-      document.getElementById('quiz').style.display = 'block';
-      renderQuestion();
-    }
+window.VIBE_ORDER = ["dawn", "spark", "home", "express", "music", "calm"];
 
-    const scaleLabels = ['전혀\n아니다', '아니다', '보통', '그렇다', '매우\n그렇다'];
+window.LOVE_TYPES = {
+  secure: {
+    id: "secure", emoji: "❤️", name: "안정형", en: "secure", contact: "꾸준 연락형",
+    desc: "신뢰를 바탕으로 안정적인 관계를 만들어가요. 갈등이 와도 회피하지 않고 대화로 풀어내는 건강한 애착 스타일이에요.",
+  },
+  anxious: {
+    id: "anxious", emoji: "💓", name: "설렘형", en: "anxious", contact: "실시간 확인형",
+    desc: "사랑에 깊이 몰입하지만 확인받고 싶은 마음이 커요. 작은 신호에도 감정이 크게 출렁이는 열정적인 스타일이에요.",
+  },
+  avoidant: {
+    id: "avoidant", emoji: "🧊", name: "독립형", en: "avoidant", contact: "마이페이스 연락형",
+    desc: "자율성과 거리감을 소중히 여겨요. 깊이 가까워지는 건 조심스럽지만 자신만의 방식으로 관계를 지켜가요.",
+  },
+  fearful: {
+    id: "fearful", emoji: "🌀", name: "복합형", en: "fearful", contact: "밀당 연락형",
+    desc: "사랑을 원하면서도 상처를 두려워해요. 다가가고 싶은 마음과 물러서고 싶은 마음이 늘 함께 움직여요.",
+  },
+};
 
-    function renderQuestion() {
-      const q = questions[current];
-      const sel = answers[current];
-      const isVibe = q.section === 'vibe';
+window.LOVE_ORDER = ["secure", "anxious", "avoidant", "fearful"];
 
-      document.getElementById('q-count').textContent = `${current + 1} / 20`;
-      const pct = Math.round((current / 20) * 100);
-      document.getElementById('q-percent').textContent = pct + '%';
-      document.getElementById('prog-fill').style.width = pct + '%';
+window.QUESTIONS = [
+  { id: 1,  part: "vibe", text: "혼자 있는 시간이 에너지를 채워준다",                            targets: ["home", "calm"] },
+  { id: 2,  part: "vibe", text: "음악을 들으면 감정이 크게 흔들린다",                            targets: ["music", "dawn"] },
+  { id: 3,  part: "vibe", text: "계획 없이 즉흥적으로 움직이는 게 더 재밌다",                    targets: ["spark"] },
+  { id: 4,  part: "vibe", text: "감정을 글이나 말로 표현하고 나면 마음이 편해진다",              targets: ["express"] },
+  { id: 5,  part: "vibe", text: "밤이 되면 혼자 생각이 깊어지는 편이다",                        targets: ["dawn", "home"] },
+  { id: 6,  part: "vibe", text: "처음 보는 사람과도 금세 가까워진다",                            targets: ["spark", "express"] },
+  { id: 7,  part: "vibe", text: "낯선 장소를 여행할 때 가슴이 뛴다",                            targets: ["spark", "dawn"] },
+  { id: 8,  part: "vibe", text: "아무 데도 안 나가는 주말이 가장 완벽하다",                      targets: ["home"] },
+  { id: 9,  part: "vibe", text: "할 일을 미리 끝내 두어야 마음이 놓인다",                        targets: ["calm"] },
+  { id: 10, part: "vibe", text: "영화나 예술에서 깊은 영감을 자주 받는다",                       targets: ["dawn", "music"] },
+  { id: 11, part: "vibe", text: "기분에 따라 듣는 음악이 완전히 달라진다",                       targets: ["music"] },
+  { id: 12, part: "vibe", text: "감정이 격해져도 비교적 빨리 가라앉는다",                        targets: ["calm"] },
+  { id: 13, part: "vibe", text: "사람들 앞에서 주목받는 순간이 즐겁다",                          targets: ["spark", "express"] },
+  { id: 14, part: "vibe", text: "속마음을 솔직하게 드러내는 편이다",                             targets: ["express"] },
+  { id: 15, part: "vibe", text: "조용하고 익숙한 공간에서 가장 안정감을 느낀다",                 targets: ["home", "calm"] },
+  { id: 16, part: "vibe", text: "현실보다 상상이나 공상에 자주 빠진다",                          targets: ["dawn", "music"] },
+  { id: 17, part: "vibe", text: "약속과 일정을 꼼꼼하게 챙긴다",                                targets: ["calm"] },
+  { id: 18, part: "vibe", text: "사람들과 어울리면 점점 더 신이 난다",                           targets: ["spark", "express"] },
+  { id: 19, part: "vibe", text: "익숙한 동네, 익숙한 카페가 마음 편하다",                        targets: ["home"] },
+  { id: 20, part: "vibe", text: "노래 가사 한 줄이 하루를 좌우할 때가 있다",                     targets: ["music"] },
+  { id: 21, part: "love", text: "연락이 늦어도 '바쁜가 보다' 하고 먼저 이유를 헤아린다",         targets: ["secure"] },
+  { id: 22, part: "love", text: "상대가 나를 얼마나 좋아하는지 자꾸 확인하고 싶다",              targets: ["anxious"] },
+  { id: 23, part: "love", text: "연애 중에도 나만의 시간과 공간이 꼭 필요하다",                  targets: ["avoidant"] },
+  { id: 24, part: "love", text: "가까워지고 싶으면서도 상처받을까 봐 자꾸 망설인다",             targets: ["fearful"] },
+  { id: 25, part: "love", text: "다툼이 생기면 피하지 않고 대화로 풀려고 한다",                  targets: ["secure"] },
+  { id: 26, part: "love", text: "답장이 없으면 온갖 생각에 마음이 불안해진다",                   targets: ["anxious"] },
+  { id: 27, part: "love", text: "상대가 너무 깊이 들어오면 숨이 막혀 거리를 둔다",               targets: ["avoidant"] },
+  { id: 28, part: "love", text: "사랑받고 싶다가도 막상 가까워지면 도망치고 싶어진다",           targets: ["avoidant", "fearful"] },
+  { id: 29, part: "love", text: "내 감정과 바람을 상대에게 솔직히 표현한다",                     targets: ["secure"] },
+  { id: 30, part: "love", text: "좋아하는 마음이 커질수록 불안과 두려움도 함께 커진다",          targets: ["anxious", "fearful"] },
+];
 
-      document.getElementById('btn-prev').style.visibility = current === 0 ? 'hidden' : 'visible';
-      document.getElementById('btn-next').textContent = current === 19 ? '결과 보기 🎉' : '다음 →';
-      document.getElementById('btn-next').disabled = sel === null;
+window.COMPAT = {
+  "dawn|spark": 60, "dawn|home": 72, "dawn|express": 80, "dawn|music": 92, "dawn|calm": 70,
+  "spark|home": 45, "spark|express": 88, "spark|music": 72, "spark|calm": 55,
+  "home|express": 64, "home|music": 76, "home|calm": 90,
+  "express|music": 80, "express|calm": 66,
+  "music|calm": 84,
+};
 
-      const scaleBtns = [1,2,3,4,5].map(v => `
-        <button class="scale-btn ${sel === v ? 'selected' : ''}" onclick="selectOption(${v})">
-          <span class="scale-num">${v}</span>
-          <span>${scaleLabels[v-1].replace('\n','<br>')}</span>
-        </button>
-      `).join('');
+window.getCompat = function(a, b) {
+  if (a === b) return 100;
+  return window.COMPAT[a + "|" + b] ?? window.COMPAT[b + "|" + a] ?? 50;
+};
+  </script>
 
-      document.getElementById('q-card').innerHTML = `
-        <div class="question-label">Q${q.id}</div>
-        <span class="section-tag ${isVibe ? 'vibe' : 'love'}">${isVibe ? '🌙 감성 · 바이브' : '❤️ 연애 성향'}</span>
-        <div class="question-text">${q.text}</div>
-        <div class="scale-btns">${scaleBtns}</div>
-      `;
-    }
+  <script type="text/babel">
+const { useState, useEffect, useRef } = React;
+const STORE_KEY = "vibe_sticker_v1";
 
-    function selectOption(v) {
-      answers[current] = v;
-      document.getElementById('btn-next').disabled = false;
-      renderQuestion();
-    }
+function computeResult(answers) {
+  const vibe = {}, love = {};
+  window.VIBE_ORDER.forEach((k) => (vibe[k] = 0));
+  window.LOVE_ORDER.forEach((k) => (love[k] = 0));
+  window.QUESTIONS.forEach((q, i) => {
+    const v = answers[i];
+    if (!v) return;
+    const bucket = q.part === "vibe" ? vibe : love;
+    q.targets.forEach((t) => (bucket[t] += v));
+  });
+  const topVibe = window.VIBE_ORDER.reduce((a, b) => (vibe[b] > vibe[a] ? b : a));
+  const topLove = window.LOVE_ORDER.reduce((a, b) => (love[b] > love[a] ? b : a));
+  return { vibe, love, topVibe, topLove };
+}
 
-    function nextQ() {
-      if (answers[current] === null || answers[current] === undefined) return;
-      if (current === 19) { showResult(); return; }
-      current++;
-      renderQuestion();
-    }
+function Intro({ onStart, hasSaved, onResume }) {
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}.${String(today.getMonth()+1).padStart(2,'0')}.${String(today.getDate()).padStart(2,'0')} · 오늘의 나`;
+  return (
+    <div className="s-screen s-intro">
+      <div className="intro-stack" style={{ textAlign: "center" }}>
+        <span className="s-date">{dateStr}</span>
+        <h1 className="s-title">
+          <span className="tl">나의 감성 &amp;</span>
+          <span className="tl"><b>연애 성향</b> 테스트</span>
+        </h1>
+        <p className="s-sub">서른 개의 질문으로 적어보는<br />나의 바이브와 사랑의 방식</p>
 
-    function prevQ() {
-      if (current === 0) return;
-      current--;
-      renderQuestion();
-    }
-
-    function calcVibe() {
-      const s = { "새벽 감성형":0, "즉흥 에너지형":0, "집콕형":0, "표현형":0, "음악형":0, "잔잔형":0 };
-      questions.slice(0, 10).forEach((q, i) => {
-        const score = answers[i] ?? 3;
-        q.target.forEach(t => s[t] += score);
-      });
-      return Object.entries(s).sort((a,b) => b[1]-a[1])[0][0];
-    }
-
-    function calcLove() {
-      let contactScore = 0;
-      const t = { "안정형":0, "설렘형":0, "표현형":0, "친구형":0 };
-      questions.slice(10).forEach((q, i) => {
-        const score = answers[10 + i] ?? 3;
-        q.target.forEach(key => {
-          if      (key === "contact+") contactScore += score;
-          else if (key === "contact-") contactScore -= score;
-          else t[key] += score;
-        });
-      });
-      const contactStyle = contactScore >= 3 ? "연락 잦음" : contactScore <= -3 ? "연락 적음" : "연락 적당";
-      const loveType = Object.entries(t).sort((a,b) => b[1]-a[1])[0][0];
-      return { contactStyle, loveType };
-    }
-
-    const loveEmoji = { "안정형":"❤️", "설렘형":"💕", "표현형":"✨", "친구형":"🤝" };
-
-    // 바이브 + 연애 조합별 문구
-    const combinedData = {
-      "새벽 감성형": {
-        "안정형":  { headline:"너는 새벽 감성 + 안정형 연애를 하는 사람이야", lines:["조용한 순간 속에서 진짜 감정을 느끼는 타입이야","연애에서도 편안하고 오래가는 관계를 더 원해"] },
-        "설렘형":  { headline:"너는 새벽 감성 + 설렘을 중요하게 생각하는 사람이야", lines:["감정이 깊어서 작은 순간에도 크게 흔들려","연애에서도 감정의 온도를 중요하게 느껴"] },
-        "표현형":  { headline:"너는 감성적이면서도 표현을 중요하게 생각해", lines:["밤에 감정을 글로 쓰거나 말로 털어놓는 타입이야","솔직한 감정 표현이 관계를 더 깊게 만들어줘"] },
-        "친구형":  { headline:"너는 감성적이지만 편안한 친구 같은 연애가 좋아", lines:["깊은 감성을 나눌 수 있는 사람이 곁에 있으면 돼","연애보다 서로 이해하는 관계가 더 중요해"] }
-      },
-      "즉흥 에너지형": {
-        "안정형":  { headline:"너는 즉흥적이지만 관계에서는 안정을 찾아", lines:["밖에서는 에너지 넘치지만 사람과는 편안하길 원해","믿을 수 있는 사람 한 명이 있으면 충분해"] },
-        "설렘형":  { headline:"너는 즉흥 에너지 + 설렘을 동시에 즐기는 사람이야", lines:["새로운 것과 두근거림을 함께 느끼는 타입이야","연애도 매 순간 새롭고 설레야 직성이 풀려"] },
-        "표현형":  { headline:"너는 에너지 넘치고 표현도 적극적인 타입이야", lines:["좋으면 바로 티내고 싫으면 바로 말하는 편이야","솔직하고 활동적인 연애 스타일이 잘 어울려"] },
-        "친구형":  { headline:"너는 즉흥적이고 친구 같은 연애를 선호해", lines:["같이 뭔가 하는 게 제일 좋아, 가만히 있으면 심심해","연인보다 가장 친한 친구 같은 사람이 이상형이야"] }
-      },
-      "집콕형": {
-        "안정형":  { headline:"너는 집콕 + 안정형 연애를 하는 사람이야", lines:["집에서 함께 있는 것만으로도 충분히 행복해","조용하고 안정적인 연애가 제일 잘 맞아"] },
-        "설렘형":  { headline:"너는 집에서도 설레는 감정을 원하는 타입이야", lines:["밖보단 집이지만 감정의 온도는 높고 싶어","같이 있을 때 편안하면서도 두근거리는 게 이상이야"] },
-        "표현형":  { headline:"너는 조용하지만 감정은 확실히 표현하는 타입이야", lines:["집에 있어도 감정 표현은 적극적으로 해","상대가 내 마음을 알아줬으면 하는 바람이 있어"] },
-        "친구형":  { headline:"너는 집에서 편하게 친구 같은 연애를 원해", lines:["넷플릭스 보면서 조용히 있는 게 최고의 데이트야","부담 없이 편한 사람이랑 오래 있고 싶어"] }
-      },
-      "표현형": {
-        "안정형":  { headline:"너는 표현은 잘하지만 안정을 원하는 타입이야", lines:["솔직하게 말하면서도 관계는 오래가길 바라","표현하고 나서 상대가 받아줄 때 가장 행복해"] },
-        "설렘형":  { headline:"너는 표현 + 설렘 둘 다 중요한 사람이야", lines:["감정을 솔직히 말하고 설레는 순간을 즐겨","연애할 때 두근거림 + 솔직한 대화가 필수야"] },
-        "표현형":  { headline:"너는 표현이 넘치는 연애 스타일이야", lines:["좋다고 말하고, 싫다고 말하고, 다 말해버리는 타입","상대도 그만큼 표현해줄 때 가장 잘 맞아"] },
-        "친구형":  { headline:"너는 표현하면서도 친구 같은 연애를 원해", lines:["솔직하게 다 말할 수 있는 사람이 이상형이야","연인이자 가장 친한 친구 같은 관계가 최고야"] }
-      },
-      "음악형": {
-        "안정형":  { headline:"너는 음악처럼 감성적이고 안정적인 연애를 원해", lines:["좋아하는 음악 같이 들을 수 있는 사람이면 충분해","감성이 맞는 사람과 오래가는 관계가 제일 좋아"] },
-        "설렘형":  { headline:"너는 음악처럼 감성적이고 설레는 연애를 원해", lines:["좋은 노래 들을 때처럼 심장이 두근거리는 연애가 좋아","감성 + 설렘이 동시에 있는 사람이 이상형이야"] },
-        "표현형":  { headline:"너는 음악으로 감정을 표현하는 타입이야", lines:["말 대신 음악으로 감정을 전하고 싶을 때가 있어","표현하고 싶은 감정이 많지만 방식이 감성적이야"] },
-        "친구형":  { headline:"너는 음악 취향 공유하며 친구처럼 지내는 연애가 좋아", lines:["플리 공유하면서 가까워지는 게 제일 자연스러워","취향이 맞는 사람이랑 부담 없이 지내고 싶어"] }
-      },
-      "잔잔형": {
-        "안정형":  { headline:"너는 잔잔한 안정형 연애를 하는 사람이야", lines:["편안한 분위기 속에서 행복을 느끼는 타입이야","연애도 부담 없이 자연스럽게 이어가는 걸 좋아해"] },
-        "설렘형":  { headline:"너는 잔잔하지만 설레는 감정은 원하는 타입이야", lines:["조용하게 있지만 내심 두근거림은 필요해","작은 것에서 설렘을 느끼는 감성 있는 타입이야"] },
-        "표현형":  { headline:"너는 잔잔하지만 감정은 표현하는 타입이야", lines:["조용히 있다가도 하고 싶은 말은 다 해버려","감정을 솔직하게 말할 수 있는 관계를 원해"] },
-        "친구형":  { headline:"너는 잔잔하고 친구 같은 연애를 원해", lines:["같이 있어도 말 없이 편한 게 최고야","서로 간섭 없이 자연스럽게 이어가는 연애가 좋아"] }
-      }
-    };
-
-    function showResult() {
-      document.getElementById('quiz').style.display = 'none';
-      const el = document.getElementById('result');
-      el.style.display = 'block';
-
-      const vibe = calcVibe();
-      const { loveType } = calcLove();
-      const v = vibeData[vibe];
-      const combo = (combinedData[vibe] && combinedData[vibe][loveType]) || {
-        headline: `너는 ${vibe} + ${loveType} 연애를 하는 사람이야`,
-        lines: [v.desc, "자신만의 연애 스타일이 있는 타입이야"]
-      };
-
-      if (window.saveVibeType) window.saveVibeType(vibe, loveType);
-
-      // 궁합 계산
-      const compatSorted = Object.entries(v.compat || {})
-        .sort((a, b) => b[1].score - a[1].score);
-      const getTag = s => s >= 85 ? ['s5','찰떡'] : s >= 65 ? ['s4','잘맞음'] : s >= 45 ? ['s3','보통'] : s >= 30 ? ['s2','달라요'] : ['s1','정반대'];
-      const topComment = compatSorted[0]?.[1]?.comment || '';
-
-      const compatHTML = compatSorted.length ? `
-        <div class="section-title">💘 유형별 궁합</div>
-        ${topComment ? `<div class="compat-top">${topComment}</div>` : ''}
-        <div class="compat-list">
-          ${compatSorted.map(([name, data]) => {
-            const [cls, label] = getTag(data.score);
-            const ve = vibeData[name];
-            return `<div class="compat-item">
-              <span class="compat-emoji">${ve.emoji}</span>
-              <span class="compat-name">${name}</span>
-              <div class="compat-bar-wrap"><div class="compat-bar-fill" style="width:${data.score}%"></div></div>
-              <span class="compat-pct">${data.score}%</span>
-              <span class="compat-tag ${cls}">${label}</span>
-            </div>`;
-          }).join('')}
+        <div className="note s-meta">
+          <div><div className="m-num">30</div><div className="m-label">문항</div></div>
+          <div><div className="m-num">6+4</div><div className="m-label">유형</div></div>
+          <div><div className="m-num">3분</div><div className="m-label">소요</div></div>
         </div>
-      ` : '';
 
-      el.innerHTML = `
-        <div style="text-align:center;padding:28px 0 8px;">
-          <div style="font-size:22px;font-weight:800;color:#f1f5f9;letter-spacing:-0.3px;margin-bottom:6px;">
-            ${v.emoji} ${vibe} + ${loveEmoji[loveType] || '❤️'} ${loveType}
+        <div className="s-chips">
+          <span className="chip">🌙 감성·바이브 20문항</span>
+          <span className="chip">❤️ 연애 성향 10문항</span>
+        </div>
+
+        <button className="s-btn" onClick={onStart}>테스트 시작하기</button>
+        {hasSaved && (
+          <button className="s-btn ghost" style={{ marginTop: 10 }} onClick={onResume}>
+            이어서 하기
+          </button>
+        )}
+        <p className="s-foot">솔직하게 적을수록 정확해져요 ✎</p>
+      </div>
+    </div>
+  );
+}
+
+function Scale({ value, onPick }) {
+  const sizes = [50, 41, 33, 41, 50];
+  return (
+    <div>
+      <div className="ticks">
+        {window.SCALE.map((s, i) => (
+          <button
+            key={s.value}
+            className={"tick" + (value === s.value ? " sel" : "")}
+            style={{ width: sizes[i], height: sizes[i] }}
+            onClick={() => onPick(s.value)}
+            aria-label={s.label}
+          />
+        ))}
+      </div>
+      <div className="ends">
+        <span>전혀 아니다</span>
+        <span>매우 그렇다</span>
+      </div>
+    </div>
+  );
+}
+
+function Quiz({ index, answers, onPick, onBack }) {
+  const q = window.QUESTIONS[index];
+  const num = index + 1;
+  const isVibe = q.part === "vibe";
+  return (
+    <div className="s-screen s-quiz">
+      <div className="topbar">
+        <button className="back" onClick={onBack} disabled={index === 0}>‹</button>
+        <div className="dots">
+          {window.QUESTIONS.map((_, i) => (
+            <div key={i} className={"d" + (i < num ? " on" : "")} />
+          ))}
+        </div>
+        <span className="counter">{num}<span className="tot"> /30</span></span>
+      </div>
+
+      <div className="quiz-body">
+        <div>
+          <span className={"chip " + (isVibe ? "sage" : "pink")}>
+            {isVibe ? "🌙 감성·바이브" : "❤️ 연애 성향"}
+          </span>
+        </div>
+        <div className="note q-note" key={q.id}>
+          <span className="q-index">Q{num}.</span>
+          <p className="q-text">{q.text}</p>
+        </div>
+        <Scale value={answers[index]} onPick={(v) => onPick(index, v)} />
+      </div>
+    </div>
+  );
+}
+
+function CompatChart({ topVibe }) {
+  const rows = window.VIBE_ORDER
+    .filter((k) => k !== topVibe)
+    .map((k) => ({ k, t: window.VIBE_TYPES[k], score: window.getCompat(topVibe, k) }))
+    .sort((a, b) => b.score - a.score);
+  return (
+    <div className="compat">
+      {rows.map((r) => (
+        <div className="compat-row" key={r.k}>
+          <span className="compat-name">{r.t.emoji} {r.t.name}</span>
+          <div className="compat-track">
+            <div className="compat-fill" style={{ width: r.score + "%" }} />
           </div>
-          <div style="font-size:13px;color:#64748b;margin-bottom:20px;">나의 바이브 × 연애 성향 조합</div>
+          <span className="compat-score">{r.score}</span>
         </div>
+      ))}
+    </div>
+  );
+}
 
-        <div style="background:linear-gradient(135deg,#1e1b36,#161628);border:1px solid #3d2d60;border-radius:20px;padding:24px 22px;margin-bottom:20px;">
-          <div style="font-size:13px;color:#a78bfa;font-weight:700;margin-bottom:10px;">👉 한 줄로 말하면</div>
-          <div style="font-size:17px;font-weight:800;color:#f1f5f9;line-height:1.5;margin-bottom:16px;">"${combo.headline}"</div>
-          ${combo.lines.map(l => `
-            <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">
-              <span style="color:#a78bfa;margin-top:2px;">•</span>
-              <span style="font-size:14px;color:#cbd5e1;line-height:1.5;">${l}</span>
+function Result({ result, onRestart }) {
+  const vibe = window.VIBE_TYPES[result.topVibe];
+  const love = window.LOVE_TYPES[result.topLove];
+  const [showMatch, setShowMatch] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const bestMatchKey = window.VIBE_ORDER
+    .filter((k) => k !== result.topVibe)
+    .reduce((a, b) => (window.getCompat(result.topVibe, b) > window.getCompat(result.topVibe, a) ? b : a));
+  const bestMatch = window.VIBE_TYPES[bestMatchKey];
+
+  function copyResult() {
+    const text = `${vibe.emoji} ${vibe.name}\n${vibe.oneLiner}\n\n연애 성향: ${love.emoji} ${love.name} · ${love.contact}\n나랑 잘 맞는 사람: ${bestMatch.emoji} ${bestMatch.name}\n\n나의 VIBE × 연애 성향 테스트 결과`;
+    navigator.clipboard?.writeText(text).then(
+      () => { setCopied(true); setTimeout(() => setCopied(false), 1800); },
+      () => {}
+    );
+  }
+
+  return (
+    <div className="s-screen s-result">
+      <div className="r-hero">
+        <div className="stamp">VIBE<br />TYPE</div>
+        <div className="hero-emoji">{vibe.emoji}</div>
+        <span className="hero-kicker">나의 감성 유형은</span>
+        <h1 className="hero-name">{vibe.name}</h1>
+        <p className="hero-line">{vibe.oneLiner}</p>
+        <span className="chip sm">{vibe.big5}</span>
+      </div>
+
+      <section className="block">
+        <h2 className="block-title">🧠 심리학적으로 말하면</h2>
+        <div className="note"><p className="psych-text">{vibe.psych}</p></div>
+      </section>
+
+      <section className="block">
+        <h2 className="block-title">💘 나의 연애 성향</h2>
+        <div className="love-badges">
+          <div className="love-badge">
+            <span className="lb-emoji">{love.emoji}</span>
+            <div className="lb-meta">
+              <span className="lb-kind">애착유형</span>
+              <span className="lb-name">{love.name}</span>
             </div>
-          `).join('')}
+          </div>
+          <div className="love-badge">
+            <span className="lb-emoji">✉️</span>
+            <div className="lb-meta">
+              <span className="lb-kind">연락 스타일</span>
+              <span className="lb-name">{love.contact}</span>
+            </div>
+          </div>
         </div>
+        <p className="love-desc">{love.desc}</p>
+      </section>
 
-        ${compatHTML}
+      <section className="block">
+        <h2 className="block-title">🔗 유형별 궁합</h2>
+        <CompatChart topVibe={result.topVibe} />
+      </section>
 
-        <div class="vibe-cta">
-          <p>이 유형이랑 진짜 잘 맞는 사람 찾아볼래? 👀</p>
-          <a class="vibe-btn vibe-btn-main" href="https://vibe-56a26.web.app" target="_blank">👉 나랑 맞는 사람 찾기</a>
+      <section className="block">
+        <h2 className="block-title">💌 나에게 한마디</h2>
+        <ul className="advice-list">
+          {vibe.advice.map((a, i) => (
+            <li key={i} className="advice-item">
+              <span className="pen-check">✓</span>{a}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {showMatch && (
+        <section className="block match-block">
+          <h2 className="block-title">✦ 나랑 가장 잘 맞는 사람</h2>
+          <div className="match-card">
+            <span className="match-emoji">{bestMatch.emoji}</span>
+            <div className="match-meta">
+              <span className="match-name">{bestMatch.name}</span>
+              <span className="match-line">{bestMatch.oneLiner}</span>
+            </div>
+            <span className="match-score">
+              {window.getCompat(result.topVibe, bestMatchKey)}<small>%</small>
+            </span>
+          </div>
+        </section>
+      )}
+
+      <div className="actions">
+        {!showMatch ? (
+          <button className="s-btn" onClick={() => setShowMatch(true)}>
+            나랑 맞는 사람 찾기
+          </button>
+        ) : (
+          <a className="s-btn" href="https://vibe-56a26.web.app" target="_blank"
+             style={{ textDecoration: "none", textAlign: "center", display: "block" }}>
+            👉 바이브 앱에서 직접 찾기
+          </a>
+        )}
+        <div className="actions-row">
+          <button className="s-btn ghost" onClick={onRestart}>다시하기</button>
+          <button className="s-btn ghost" onClick={copyResult}>{copied ? "복사됨 ✓" : "결과 복사"}</button>
         </div>
+      </div>
+    </div>
+  );
+}
 
-        <div class="btn-row">
-          <button class="btn-retry" onclick="retryQuiz()">🔄 다시 하기</button>
-          <button class="btn-copy" onclick="copyResult()">📋 결과 복사</button>
-        </div>
-      `;
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+function App() {
+  const [stage, setStage] = useState("intro");
+  const [index, setIndex] = useState(0);
+  const [answers, setAnswers] = useState(Array(30).fill(null));
+  const [result, setResult] = useState(null);
+  const [hasSaved, setHasSaved] = useState(false);
+  const timer = useRef(null);
 
-    function retryQuiz() {
-      answers.fill(null);
-      current = 0;
-      document.getElementById('result').style.display = 'none';
-      document.getElementById('intro').style.display = 'block';
-    }
+  useEffect(() => {
+    try {
+      const s = JSON.parse(localStorage.getItem(STORE_KEY));
+      if (s && Array.isArray(s.answers) && s.answers.some((a) => a != null)) setHasSaved(true);
+    } catch (e) {}
+  }, []);
 
-    function copyResult() {
-      const vibe = calcVibe();
-      const { loveType } = calcLove();
-      const v = vibeData[vibe];
-      const combo = (combinedData[vibe] && combinedData[vibe][loveType]) || { headline: `${vibe} + ${loveType}`, lines: [] };
-      const lines = combo.lines.map(l => `• ${l}`).join('\n');
-      const text = `${v.emoji} 나의 바이브: ${vibe}\n${loveEmoji[loveType] || '❤️'} 연애 성향: ${loveType}\n\n"${combo.headline}"\n\n${lines}\n\n#바이브테스트`;
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = document.querySelector('.btn-copy');
-        btn.textContent = '✅ 복사됨!';
-        setTimeout(() => btn.textContent = '📋 결과 복사', 2000);
-      });
-    }
+  function persist(a, i) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ answers: a, index: i })); } catch (e) {}
+  }
+  function start() {
+    setAnswers(Array(30).fill(null)); setIndex(0); setStage("quiz");
+    localStorage.removeItem(STORE_KEY);
+  }
+  function resume() {
+    try {
+      const s = JSON.parse(localStorage.getItem(STORE_KEY));
+      const a = s.answers || Array(30).fill(null);
+      setAnswers(a);
+      const fu = a.findIndex((x) => x == null);
+      setIndex(fu === -1 ? 29 : fu);
+      setStage("quiz");
+    } catch (e) { start(); }
+  }
+  function pick(i, v) {
+    const next = answers.slice(); next[i] = v;
+    setAnswers(next); persist(next, i);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      if (i < 29) {
+        setIndex(i + 1);
+      } else {
+        const res = computeResult(next);
+        setResult(res);
+        if (window.saveVibeType) window.saveVibeType(res.topVibe);
+        setStage("result");
+        localStorage.removeItem(STORE_KEY);
+        window.scrollTo(0, 0);
+      }
+    }, 260);
+  }
+  function back() { if (index > 0) setIndex(index - 1); }
+  function restart() {
+    clearTimeout(timer.current);
+    setResult(null); setHasSaved(false); setStage("intro");
+    setAnswers(Array(30).fill(null)); setIndex(0);
+    localStorage.removeItem(STORE_KEY); window.scrollTo(0, 0);
+  }
+
+  return (
+    <div className="s-app">
+      {stage === "intro" && <Intro onStart={start} hasSaved={hasSaved} onResume={resume} />}
+      {stage === "quiz" && <Quiz index={index} answers={answers} onPick={pick} onBack={back} />}
+      {stage === "result" && result && <Result result={result} onRestart={restart} />}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>
 </body>
 </html>
